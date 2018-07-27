@@ -1,6 +1,7 @@
 package com.ccxh.top;
 
 import com.alibaba.fastjson.JSONObject;
+import org.testng.annotations.Test;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -10,12 +11,26 @@ import java.io.IOException;
  * Hello world!
  */
 public class App {
-    public static void main(String[] args) {
+    @Test
+    public void test1(){
         DataSplit dataSplit = new DataSplit();
-     //   JSONObject object = dataSplit.dataSplit(new File("F:/fdm5_x64_setup.exe"));
-        UpLoadHelp upLoadHelp = new UpLoadHelp();
+        JSONObject jsonObject = dataSplit.dataSplit(new File("D:\\Notepad++/contextMenu.xml"));
+    }
+    @Test
+    public void test12(){
         try {
-            upLoadHelp.mergeData( "F:/2018/26/26",48);
+             new DateMerge().run("D:/2018/7/27",487,new File("D:/contextMenu.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test3(){
+        DataSplit dataSplit = new DataSplit();
+        JSONObject jsonObject = dataSplit.dataSplit(new File("D:\\迅雷下载/VMware-workstation-full-14.1.2-8497320.exe"));
+        try {
+            new DateMerge().run(jsonObject.getString("rootPath"),jsonObject.getInteger("maxIndex"),new File("D:/VMware-workstation-full-14.1.2-8497320.exe"));
         } catch (IOException e) {
             e.printStackTrace();
         }

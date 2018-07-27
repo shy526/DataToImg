@@ -1,6 +1,8 @@
 package com.ccxh.top;
 
 
+import com.sun.prism.paint.Color;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -46,12 +48,14 @@ public class SplitTask implements Runnable {
                 int corol = 0;
                 if (i == 0 && j == 0) {
                     corol = datas.length;
-                    System.out.println("corol = " + corol);
                 } else {
                     corol = this.getColor();
                 }
                 //设置像素
                 br.setRGB(i, j, corol);
+
+                int rgb = br.getRGB(i, j);
+            //    System.out.println("rgb = " + rgb);
             }
         }
         try {
@@ -60,13 +64,14 @@ public class SplitTask implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
+            br=null;
             countDownLatch.countDown();
         }
     }
 
     public File getFile() {
         LocalDate now = LocalDate.now();
-        Path path = Paths.get(rootPath, intToString(now.getYear()), intToString(now.getDayOfMonth()), intToString(now.getDayOfMonth()));
+        Path path = Paths.get(rootPath, intToString(now.getYear()), intToString(now.getMonthValue()), intToString(now.getDayOfMonth()));
         File file = path.toFile();
         if (!file.exists()) {
             if (!file.mkdirs()) {
@@ -85,10 +90,10 @@ public class SplitTask implements Runnable {
      * @return
      */
     private int getColor() {
-        byte r = this.getByte();
-        byte g = this.getByte();
-        byte b = this.getByte();
-        return r << 16 | g << 8 | b;
+        int r = Byte.toUnsignedInt(this.getByte());
+        int g = Byte.toUnsignedInt(this.getByte());
+        int b = Byte.toUnsignedInt(this.getByte());
+       return (r<<16) | (g<<8) | b;
     }
 
     private byte getByte() {
@@ -104,6 +109,12 @@ public class SplitTask implements Runnable {
      * @return
      */
     public static byte[] getColorRGB(int color) {
+        byte r = (byte) ((color >> 16) & 0xff);
+        byte g = (byte) ((color >> 8) & 0xff);
+        byte b = (byte) (color & 0xff);
+        return new byte[]{r, g, b};
+    }
+    private   byte[] getColorRGB(Integer color) {
         byte r = (byte) ((color >> 16) & 0xff);
         byte g = (byte) ((color >> 8) & 0xff);
         byte b = (byte) (color & 0xff);
