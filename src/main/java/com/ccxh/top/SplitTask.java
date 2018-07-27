@@ -59,8 +59,8 @@ public class SplitTask implements Runnable {
             }
         }
         try {
-
-            ImageIO.write(br, "png", getFile());
+            SmmsUpload.uploadPic(br);
+           /// ImageIO.write(br, "png", getFile());
         } catch (IOException e) {
             e.printStackTrace();
         }finally {

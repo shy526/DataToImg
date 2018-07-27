@@ -14,12 +14,12 @@ public class App {
     @Test
     public void test1(){
         DataSplit dataSplit = new DataSplit();
-        JSONObject jsonObject = dataSplit.dataSplit(new File("D:\\Notepad++/contextMenu.xml"));
+        JSONObject jsonObject = dataSplit.dataSplit(new File("D:\\bower.json"));
     }
     @Test
     public void test12(){
         try {
-             new DateMerge().run("D:/2018/7/27",487,new File("D:/contextMenu.xml"));
+             new DateMerge().run("D:/2018/7/27",1,new File("D:/bower拷贝.josn"));
         } catch (IOException e) {
             e.printStackTrace();
         }
